@@ -15,36 +15,65 @@ def setup():
     
     global x
     global y
+    global pinned
     x = None
     y = None
+    pinned = False
     
     noStroke()
     
 def draw():
     global x
     global y
+    global pinned
     
     # 1. Use the background() function to draw the donkey
     
     # 2. Use the rect() function to draw a box in the upper left
     # corner of the screen:
-    # rect(0, 0, 30, 30)
+    rect(0, 0, 30, 30)
     
     # 3. Now find the x and y coordinates where the tail attaches
     # to the donkey and draw another box with a side of 50
+    # if mousePressed:
+        # print(str(mouseX) + ", " + str(mouseY))
+    rect(680, 140, 50, 50)
     
     # 4. Change your code so the donkey is only shown when the
-    # mouse is inside the corner bounding box. 
+    # mouse is inside the corner bounding box.
     #
     # Hint: check if mouseX is greater than 0 and less than 30
     # and y is greater than 0 and less than 30
     
+    if mouseX < 30 and mouseX > 0 and mouseY < 30 and mouseY > 0:
+        background(donkey)
+    else:
+        background(200, 32, 145)
+
     # 5. Check that when the mouse is outside the corner box,
     # you should show a solid color background.
     
     # 6. Use the image() method to draw the tail at the mouseX
     # and mouseY location. For example,
-    # image(tail, mouseX, mouseY)
+    
+    
+    if mousePressed:
+        pinned = True
+    if pinned == False:
+        image(tail, mouseX, mouseY)
+        x = mouseX
+        y = mouseY
+    else:
+        background(donkey)
+        image(tail, x, y)
+        if x < 730 and x > 680 and y < 190 and y > 140:
+            fill(60, 0, 100)
+            textSize(32)
+            text("You hit the target!", 200, 50)
+        else:
+            fill(60, 0, 100)
+            textSize(32)
+            text("You missed the target!", 200, 50)
     
     # 7. Now, adjust your code so the tail sticks when you click the
     # mouse (this means it will no longer move when the mouse moves)
@@ -54,5 +83,6 @@ def draw():
         
     # 8. When the tail has been pinned, write code to check if the
     # tail was pinned inside the target bounding box.
+    
     
     # 9. Show the donkey so the user knows where they pinned the tail.

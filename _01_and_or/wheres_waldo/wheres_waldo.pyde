@@ -6,32 +6,43 @@ Make a program where the user has to find Waldo!
 # Some computers are unable to play sounds. 
 # If you cannot play sound on this computer, set canPlaySounds to false.
 # If you are not sure, ask your teacher 
-can_play_sounds = True
+can_play_sounds = False
 
 def setup():
     # Find a Where's Waldo picture and drop it onto the sketch.    
     
     # Change the line below to match your file name.
-    
+    global waldo
+    waldo = loadImage("waldo.jpg")
     # Use the size() function to set the width and height of your sketch
-    
+    size(500, 300)
     # Resize your waldo picture to the same size as the sketch
-  
+    waldo.resize(width, height)
     # Use the background() function to make the waldo image your
     # sketch background
+    background(waldo)
     
     
 def draw():
     # If the user presses the mouse...
     # *Hint* use the mousePressed variable
-  
+    background(waldo)
         # Use this print statement to help you find the location
         # of Waldo to use in the code below
-    
+    if mousePressed:
+        # print(str(mouseX) + ", " + str(mouseY))
+        if mouseX > 307 and mouseX < 351 and mouseY > 150 and mouseY < 210:
+            textSize(20)
+            text("Waldo found!", 250, 250)
+            play_woohoo()
+        else:
+            textSize(20)
+            text("Not here!", 250, 250)
+            play_doh()
         # Check if the location of the mouse is anywhere on the image of Waldo.
         # If it is, print “Waldo found!”  Use the text() command to write it
         # on the sketch.
-          
+    
             # Use the play_woohoo() method below.
         
         # However, if the mouse is not on Waldo, print "Not here!" 
@@ -42,7 +53,7 @@ def draw():
 
 # =================== This code is needed to play sounds. ===================
 
-add_library('sound')
+# add_library('sound')
 
 woohoo = None
 doh = None
@@ -54,6 +65,8 @@ def play_woohoo():
             woohoo = SoundFile(this, "homer-woohoo.wav")
         woohoo.stop()
         woohoo.play()
+    else:
+        print("woohoo!")
 
 def play_doh():
     global doh
@@ -62,3 +75,5 @@ def play_doh():
             doh = SoundFile(this, "homer-doh.wav") 
         doh.stop()
         doh.play()
+    else:
+        print("doh")
