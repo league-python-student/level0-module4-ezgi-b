@@ -45,6 +45,17 @@ if __name__ == '__main__':
 
         # TODO) Otherwise, subtract the money spent from the amount of money
         #  you still have (money_in_dollars)
+    while money_in_dollars > 0:
+        money_spent = vending_machine(money_in_dollars)
+        if money_spent == 0:
+            messagebox.showinfo(None, "You still have $" + str("{:.2f}".format(money_in_dollars)) + " left.")
+            break
+        else:
+            money_in_dollars -= money_spent
+    if money_in_dollars == 0:
+        messagebox.showinfo(None, "Congratulations! You maximized your money!")
+    elif money_in_dollars < 0:
+        messagebox.showerror(None, "ERROR: You overspent by $" + str("{:.2f}".format(-money_in_dollars)) + "! The vending machine police will come and arrest you!")
 
     # TODO) If there is exactly 0 money left, create a message that
     #  congratulates the user because they maximized their money.
