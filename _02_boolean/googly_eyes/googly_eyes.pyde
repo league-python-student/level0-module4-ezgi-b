@@ -33,13 +33,13 @@ def draw():
     # ellipse(x, y, width, height)
     fill(255, 50, 20)
     ellipse(655, 195, 130, 240)
+    ellipse(151, 210, 130, 250)
     
     println(str(mouseX) + ' ' + str(mouseY))   
     
     # 6. Now add a pupil (the black part) to the left eye earlier.
     # Use the pupil x and y variables for the position.
-    fill(0, 0, 0)
-    ellipse(655, 195, 16, 16)
+    
     
     # 7. Run the program and check if the left eye is in the correct
     # position
@@ -50,13 +50,24 @@ def draw():
     #
     # If the mouse is not inside the eye, call the get_eye_position()
     # function:
-    # position = get_eye_position(left_eye_x, left_eye_y, eye_radius, pupil_radius)
+    position = get_eye_position_ellipse(655, 195, 65, 120, 8)
     # ellipse(position.x, position.y, pupil_radius * 2, pupil_radius * 2)
     if is_mouse_inside_eye_ellipse(655, 195, 65, 120, 8):
         fill(255, 50, 20)
         ellipse(655, 195, 130, 240)
         fill(0, 0, 0)
         ellipse(mouseX, mouseY, 16, 16)
+    else:
+        fill(0, 0, 0)
+        ellipse(position.x, position.y, 8 * 2, 8 * 2)
+        
+    position = get_eye_position_ellipse(151, 210, 65, 125, 8)
+    if is_mouse_inside_eye_ellipse(151, 210, 65, 125, 8):
+        fill(0, 0, 0)
+        ellipse(mouseX, mouseY, 16, 16)
+    else:
+        fill(0, 0, 0)
+        ellipse(position.x, position.y, 8 * 2, 8 * 2)
     
     # 9. Repeat the steps above for the right eye and observe the googly eyes!
 
@@ -83,9 +94,10 @@ def is_mouse_inside_eye_ellipse(eye_center_x, eye_center_y, eye_radius_x, eye_ra
         dist_y -= pupil_radius
     else:
         dist_y += pupil_radius
-    equation = (dist_x*dist_x)/(eye_radius_x*eye_radius_x) + (dist_y*dist_y)/(eye_radius_y*eye_radius_y)
+    equation = float(dist_x*dist_x)/(eye_radius_x*eye_radius_x) + float(dist_y*dist_y)/(eye_radius_y*eye_radius_y)
     
-    if equation <= 0.9:
+    if equation <= 1:
+        print(equation*10)
         return True
     
     return False
@@ -98,6 +110,16 @@ def get_eye_position(eye_center_x, eye_center_y, eye_radius, pupil_radius):
         angle = atan2( mouseY - eye_center_y, mouseX - eye_center_x )
         position.x = eye_center_x + ((eye_radius - pupil_radius) * cos(angle))
         position.y = eye_center_y + ((eye_radius - pupil_radius) * sin(angle))
+
+    return position
+
+def get_eye_position_ellipse(eye_center_x, eye_center_y, eye_radius_x, eye_radius_y, pupil_radius):
+    position = Position()
+    
+    if mouseX - eye_center_x != 0:
+        angle = atan2( mouseY - eye_center_y, mouseX - eye_center_x )
+        position.x = eye_center_x + ((eye_radius_x - pupil_radius) * cos(angle))
+        position.y = eye_center_y + ((eye_radius_y - pupil_radius) * sin(angle))
 
     return position
 
